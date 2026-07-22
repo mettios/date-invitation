@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f0e4" />
+  <title>A tiny invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero card" id="hero">
+      <div class="sparkles" aria-hidden="true">
+        <span>✦</span><span>♡</span><span>✧</span><span>♡</span><span>✦</span>
+      </div>
+      <p class="eyebrow">A tiny invitation for you</p>
+      <h1>Would you like to go on a date with me?</h1>
+      <p class="subtitle">Something to drink and a little walk.</p>
+
+      <div class="choice-zone" id="choiceZone">
+        <button class="btn yes" id="yesBtn" type="button">Yes 😊</button>
+        <button class="btn no" id="noBtn" type="button">No</button>
+      </div>
+      <p class="microcopy" id="microcopy">You can be honest. The “No” button is only a little dramatic.</p>
+    </section>
+
+    <section class="details card hidden" id="details" aria-live="polite">
+      <div class="image-wrap">
+        <img src="assets/invitation.png" alt="Illustrated first-date invitation with a drink, cake and a garden path" />
+      </div>
+
+      <div class="planner">
+        <p class="eyebrow">Let’s fill it in together</p>
+        <h2>Pick whatever feels right</h2>
+
+        <div class="option-group" aria-labelledby="day-title">
+          <h3 id="day-title">Day</h3>
+          <div class="pill-row">
+            <button class="pill" type="button" data-group="day" data-value="Tuesday">Tuesday</button>
+            <button class="pill" type="button" data-group="day" data-value="Wednesday">Wednesday</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <label for="timeInput"><h3>Time</h3></label>
+          <div class="field-wrap"><input id="timeInput" type="time" /></div>
+          <p class="helper">Optional — you can leave it empty.</p>
+        </div>
+
+        <div class="option-group">
+          <label for="placeInput"><h3>Place</h3></label>
+          <input class="text-field" id="placeInput" type="text" maxlength="42" placeholder="Leave blank or suggest somewhere" />
+        </div>
+
+        <div class="option-group" aria-labelledby="plan-title">
+          <h3 id="plan-title">Drink</h3>
+          <div class="pill-row">
+            <button class="pill" type="button" data-group="drink" data-value="Coffee">Coffee</button>
+            <button class="pill" type="button" data-group="drink" data-value="Tea or matcha">Tea / matcha</button>
+            <button class="pill" type="button" data-group="drink" data-value="A drink">A drink</button>
+            <button class="pill" type="button" data-group="drink" data-value="">No preference</button>
+          </div>
+          <p class="helper">Optional. The plan will stay generic if nothing is selected.</p>
+        </div>
+
+        <div class="summary-box">
+          <p><strong>Preview:</strong> <span id="summaryText">Choose a day to begin.</span></p>
+        </div>
+
+        <div class="action-row">
+          <button class="btn yes" id="createBtn" type="button">Create final card</button>
+        </div>
+        <p class="status" id="status"></p>
+      </div>
+    </section>
+
+    <section class="final-card card hidden" id="finalCard">
+      <p class="eyebrow">Your finished invitation</p>
+      <h2>Our little plan</h2>
+      <p class="final-intro">The details are written directly onto the invitation. It is ready to screenshot or save.</p>
+      <canvas id="invitationCanvas" width="1122" height="1402" aria-label="Completed first-date invitation"></canvas>
+      <div class="action-row final-actions">
+        <button class="btn yes" id="downloadBtn" type="button">Save invitation</button>
+        <button class="btn ghost" id="editBtn" type="button">Change details</button>
+      </div>
+    </section>
+
+    <section class="ending card hidden" id="noEnding">
+      <p class="eyebrow">Fair enough</p>
+      <h2>No pressure at all.</h2>
+      <p>I still wanted to ask you in a cute way :)</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
