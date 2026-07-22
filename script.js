@@ -94,7 +94,7 @@ function updateSummary() {
   }
 
   const message = buildMessage();
-  summaryText.textContent = `${state.day} at ${state.time} — tea, dessert, and a little walk.`;
+  summaryText.textContent = `${state.day} at ${state.time} — Something to drink and a little walk.`;
   whatsappBtn.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
   whatsappBtn.classList.remove('disabled');
   whatsappBtn.setAttribute('aria-disabled', 'false');
