@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7efe3" />
+  <title>A tiny invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <section class="opening" id="opening">
+      <div class="opening-card">
+        <p class="tiny">A tiny invitation for you</p>
+        <h1>Would you like to go on a date with me?</h1>
+        <div class="choice-zone" id="choiceZone">
+          <button class="button primary" id="yesBtn" type="button">Yes 😊</button>
+          <button class="button secondary" id="noBtn" type="button">No</button>
+        </div>
+        <p class="micro" id="microcopy">The “No” button is only a little dramatic.</p>
+      </div>
+    </section>
+
+    <section class="editor hidden" id="editor" aria-live="polite">
+      <div class="invite-stage">
+        <img class="invite-image" src="assets/invitation.png" alt="Illustrated first-date invitation with a blank form area" />
+
+        <div class="form-panel" aria-label="Date details">
+          <label class="form-row">
+            <span>Day</span>
+            <select id="dayInput">
+              <option value="Tuesday" selected>Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+            </select>
+          </label>
+
+          <label class="form-row">
+            <span>Time</span>
+            <input id="timeInput" type="time" />
+          </label>
+
+          <label class="form-row">
+            <span>Place</span>
+            <input id="placeInput" type="text" maxlength="40" placeholder="Open" />
+          </label>
+
+          <label class="form-row">
+            <span>Drink</span>
+            <select id="drinkInput">
+              <option value="No preference" selected>No preference</option>
+              <option value="Something to drink">Something to drink</option>
+              <option value="Coffee">Coffee</option>
+              <option value="Tea or matcha">Tea or matcha</option>
+              <option value="A drink">A drink</option>
+            </select>
+          </label>
+
+          <label class="walk-toggle">
+            <input id="walkInput" type="checkbox" checked />
+            <span>Add a little walk</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="compact-actions">
+        <button class="text-button" id="backBtn" type="button">Back</button>
+      </div>
+    </section>
+
+    <section class="no-ending hidden" id="noEnding">
+      <div class="opening-card">
+        <p class="tiny">Fair enough</p>
+        <h2>No pressure at all.</h2>
+        <p>I still wanted to ask in a cute way :)</p>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
