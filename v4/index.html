@@ -25,46 +25,46 @@
     </section>
 
     <section class="editor hidden" id="editor" aria-live="polite">
-      <div class="invite-stage" id="inviteStage">
+      <div class="invite-stage">
         <img class="invite-image" src="assets/invitation.png" alt="Illustrated first-date invitation" />
 
-        <div class="live-field day-field">
-          <span class="field-label">Day:</span>
-          <select id="dayInput" aria-label="Choose a day">
-            <option value="Tuesday" selected>Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-          </select>
-        </div>
+        <div class="form-panel" aria-label="Date details">
+          <label class="form-row">
+            <span>Day</span>
+            <select id="dayInput">
+              <option value="Tuesday" selected>Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+            </select>
+          </label>
 
-        <div class="live-field time-field">
-          <span class="field-label">Time:</span>
-          <input id="timeInput" type="time" aria-label="Choose a time" />
-        </div>
+          <label class="form-row">
+            <span>Time</span>
+            <input id="timeInput" type="time" />
+          </label>
 
-        <div class="live-field place-field">
-          <span class="field-label">Place:</span>
-          <input id="placeInput" type="text" maxlength="34" placeholder="open" aria-label="Suggest a place" />
-        </div>
+          <label class="form-row">
+            <span>Place</span>
+            <input id="placeInput" type="text" maxlength="34" placeholder="Open" />
+          </label>
 
-        <div class="live-field plan-field">
-          <span class="field-label">Plan:</span>
-          <select id="drinkInput" aria-label="Choose a drink plan">
-            <option value="Something to drink" selected>Something to drink</option>
-            <option value="Coffee">Coffee</option>
-            <option value="Tea or matcha">Tea or matcha</option>
-            <option value="A drink">A drink</option>
-            <option value="No preference">No preference</option>
-          </select>
-          <span class="plan-tail">and a little walk</span>
+          <label class="form-row">
+            <span>Drink</span>
+            <select id="drinkInput">
+              <option value="Something to drink" selected>Something to drink</option>
+              <option value="Coffee">Coffee</option>
+              <option value="Tea or matcha">Tea or matcha</option>
+              <option value="A drink">A drink</option>
+              <option value="No preference">No preference</option>
+            </select>
+          </label>
+
+          <p class="walk-note">+ a little walk</p>
         </div>
       </div>
 
       <div class="compact-actions">
-        <button class="button primary" id="saveBtn" type="button">Save card</button>
         <button class="text-button" id="backBtn" type="button">Back</button>
       </div>
-      <p class="micro">Everything is optional except the day. The card updates as you choose.</p>
-      <canvas id="canvas" width="1122" height="1402" hidden></canvas>
     </section>
 
     <section class="no-ending hidden" id="noEnding">
