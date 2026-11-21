@@ -1,86 +1,290 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#f7f0e4" />
-  <title>A tiny invitation</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f0e8">
+  <meta name="description" content="One very important Wednesday decision.">
+  <meta property="og:title" content="Wednesday, then?">
+  <meta property="og:description" content="One tiny detail left to decide.">
+  <title>Wednesday, then?</title>
+  <style>
+    :root {
+      --ink: #24312c;
+      --muted: #667169;
+      --paper: #f3f0e8;
+      --cream: #fbf8f0;
+      --accent: #be583d;
+      --hairline: rgba(36,49,44,.18);
+      --shadow: 0 16px 48px rgba(32,43,35,.07);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .13;
+      z-index: 3;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
+    }
+    a { color: inherit; }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    .wrap { width: min(1020px, calc(100% - 48px)); margin: 0 auto; }
+    header {
+      border-bottom: 1px solid var(--hairline);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; padding: 28px 0 20px;
+      color: var(--ink);
+    }
+    .wordmark { font-weight: 780; letter-spacing: -.035em; font-size: 16px; }
+    .header-note { color: var(--muted); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; }
+    .hero { position: relative; padding: 75px 0 61px; }
+    .eyebrow { color: var(--accent); display: flex; gap: 12px; align-items: center; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow:before { content: ""; width: 22px; height: 1px; background: currentColor; }
+    h1 {
+      margin: 22px 0 10px;
+      max-width: 780px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 500;
+      font-size: clamp(64px, 10vw, 122px);
+      line-height: .94;
+      letter-spacing: -.065em;
+    }
+    h1 em { font-weight: 400; color: var(--accent); font-style: italic; }
+    .sub { font-size: 18px; margin: 24px 0 0; color: var(--muted); line-height: 1.6; }
+    .mini-stamp {
+      position: absolute;
+      right: 24px; top: 72px;
+      width: 91px; height: 91px;
+      border: 1.5px solid var(--ink);
+      border-radius: 50%;
+      display: grid; place-content: center;
+      text-align: center;
+      transform: rotate(11deg);
+      font-family: Georgia, serif;
+      line-height: .99;
+      font-size: 30px;
+      background: rgba(255,255,255,.1);
+    }
+    .mini-stamp span { display: block; font-size: 10px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: .13em; font-weight: 750; margin-top: 7px; }
+    .section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; border-top: 1px solid var(--hairline); padding-top: 20px; padding-bottom: 25px; }
+    .section-heading h2 { margin: 0; font-size: 13px; font-weight: 760; letter-spacing: .14em; text-transform: uppercase; }
+    .section-heading span { color: var(--muted); font-size: 13px; }
+    .choices { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px; }
+    .choice {
+      background: var(--cream);
+      border: 1px solid var(--hairline);
+      border-radius: 3px;
+      text-align: left;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 10px;
+      box-shadow: var(--shadow);
+      position: relative;
+      min-width: 0;
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .choice:hover { transform: translateY(-5px); box-shadow: 0 24px 54px rgba(32,43,35,.12); }
+    .choice[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent), 0 16px 48px rgba(32,43,35,.08); }
+    .scene { width: 100%; height: auto; display: block; aspect-ratio: 520/310; }
+    .choice-info { display: flex; align-items: center; justify-content: space-between; padding: 20px 12px 14px; gap: 10px; }
+    .place-label { font-size: 10px; color: var(--accent); letter-spacing: .15em; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
+    .place-name { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(25px, 3vw, 35px); line-height: 1.08; letter-spacing: -.045em; }
+    .circle-arrow { height: 44px; width: 44px; border-radius: 50%; border: 1px solid var(--hairline); display: grid; place-items: center; flex: 0 0 auto; font-size: 22px; transition: background .2s, color .2s; }
+    .choice[aria-pressed="true"] .circle-arrow { background: var(--accent); color: white; border-color: var(--accent); }
+    .result { min-height: 138px; display: flex; align-items: center; justify-content: center; padding: 30px 0 14px; }
+    .prompt { color: var(--muted); font-family: Georgia,serif; font-style: italic; font-size: 19px; }
+    .decision { display: none; text-align: center; flex-direction: column; align-items: center; gap: 11px; }
+    .decision.show { display: flex; animation: fadein .25s ease; }
+    .decision-line { font-family: Georgia,serif; font-size: 23px; letter-spacing: -.02em; }
+    .share-btn {
+      border: 1px solid var(--ink); color: var(--cream); background: var(--ink);
+      border-radius: 100px; padding: 13px 23px;
+      cursor: pointer; font-weight: 700; font-size: 13px;
+      transition: background .15s, transform .15s;
+    }
+    .share-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+    .share-btn:active { transform: translateY(0); }
+    .feedback { font-size: 13px; color: var(--muted); min-height: 18px; }
+    footer { border-top: 1px solid var(--hairline); padding: 19px 0 38px; margin-top: 10px; display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; }
+    footer span:last-child { color: var(--accent); }
+    @keyframes fadein { from {opacity:0; transform: translateY(5px);} to {opacity:1; transform: translateY(0);} }
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 32px, 540px); }
+      header { padding: 21px 0 17px; }
+      .header-note { font-size: 10px; }
+      .hero { padding: 58px 0 45px; }
+      h1 { font-size: clamp(63px, 14vw, 87px); max-width: 92%; margin-top: 26px; }
+      .mini-stamp { top: 38px; right: 0px; width: 65px; height: 65px; font-size: 23px; }
+      .mini-stamp span { font-size: 8px; margin-top: 5px; }
+      .sub { font-size: 16px; margin-top: 19px; }
+      .section-heading { padding-bottom: 17px; }
+      .choices { grid-template-columns: 1fr; gap: 16px; }
+      .place-name { font-size: 30px; }
+      .choice-info { padding: 16px 9px 12px; }
+      .result { min-height: 160px; }
+      footer { font-size: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
-  <main class="page-shell">
-    <section class="hero card" id="hero">
-      <div class="sparkles" aria-hidden="true">
-        <span>✦</span><span>♡</span><span>✧</span><span>♡</span><span>✦</span>
-      </div>
-      <p class="eyebrow">A tiny invitation for you</p>
-      <h1>Would you like to go on a date with me?</h1>
-      <p class="subtitle">Something to drink and a little walk</p>
+  <div class="wrap">
+    <header>
+      <div class="wordmark">The Wednesday Plan<span aria-hidden="true">↗</span></div>
+      <div class="header-note">Barcelona · 25.11.26</div>
+    </header>
 
-      <div class="choice-zone" id="choiceZone">
-        <button class="btn yes" id="yesBtn">Yes 😊</button>
-        <button class="btn no" id="noBtn">No</button>
-      </div>
-      <p class="microcopy" id="microcopy">You can be honest. The “No” button is only a little dramatic.</p>
-    </section>
+    <main>
+      <section class="hero" aria-labelledby="title">
+        <div class="eyebrow">Wednesday, 25 November</div>
+        <h1 id="title">It's <em>on.</em></h1>
+        <p class="sub">One tiny detail left: where?</p>
+        <div class="mini-stamp" aria-hidden="true">25<span>NOV / WED</span></div>
+      </section>
 
-    <section class="details card hidden" id="details" aria-live="polite">
-      <div class="image-wrap">
-        <!-- <img src="assets/invitation.png" alt="" /> -->
-        <img src="assets/date-invit-img.png" alt="" />
+      <section aria-labelledby="venue-title">
+        <div class="section-heading">
+          <h2 id="venue-title">The candidates</h2>
+          <span>Pick your favourite ↓</span>
+        </div>
+        <div class="choices">
+          <button class="choice" type="button" data-venue="Antic Teatre" aria-pressed="false" aria-label="Choose Antic Teatre">
+            <svg class="scene" viewBox="0 0 520 310" role="img" aria-label="Illustration of a quiet, leafy courtyard with café chairs and string lights" xmlns="http://www.w3.org/2000/svg">
+              <rect width="520" height="310" fill="#ecd6bb"/>
+              <path d="M0 0H520V218H0Z" fill="#d7c6ad"/>
+              <rect y="225" width="520" height="85" fill="#bf9d7b"/>
+              <path d="M0 251H520M0 282H520M70 225L32 310M185 225L173 310M322 225L353 310M445 225L488 310" fill="none" stroke="#e6caaa" stroke-width="2"/>
+              <path d="M128 225V74a132 132 0 0 1 264 0v151" fill="#f5e4c9" stroke="#947866" stroke-width="14"/>
+              <path d="M147 225V83a113 113 0 0 1 226 0v142" fill="#a9b2a0"/>
+              <path d="M147 225V188H373V225" fill="#809486"/>
+              <path d="M242 188V86M275 188V86" stroke="#789085" stroke-width="4"/>
+              <path d="M154 120Q260 105 368 125" stroke="#415849" fill="none" stroke-width="3"/>
+              <g fill="#f4dfab"><circle cx="162" cy="123" r="6"/><circle cx="208" cy="118" r="6"/><circle cx="258" cy="116" r="6"/><circle cx="307" cy="119" r="6"/><circle cx="356" cy="124" r="6"/></g>
+              <g fill="#426e54">
+                <path d="M0 0h120Q101 30 113 56Q89 69 77 51Q55 82 32 53Q6 74 0 42Z"/>
+                <path d="M520 0H395Q418 24 410 50Q445 44 455 72Q478 61 486 49Q508 58 520 37Z"/>
+                <path d="M95 210Q56 166 78 126Q112 142 116 171Q135 125 158 133Q153 181 120 213"/>
+                <path d="M417 211Q376 172 396 126Q434 136 443 178Q460 141 487 145Q482 187 451 214"/>
+              </g>
+              <g fill="#678667"><ellipse cx="35" cy="31" rx="23" ry="13" transform="rotate(-18 35 31)"/><ellipse cx="87" cy="18" rx="25" ry="13" transform="rotate(15 87 18)"/><ellipse cx="474" cy="22" rx="30" ry="13" transform="rotate(-19 474 22)"/><ellipse cx="435" cy="53" rx="23" ry="12" transform="rotate(30 435 53)"/></g>
+              <g stroke="#394a40" stroke-width="5" stroke-linecap="round" fill="none">
+                <path d="M199 236V282M177 239H221M185 249L170 280M212 249L225 280"/>
+                <path d="M320 236V282M300 239H340M307 249L290 280M333 249L348 280"/>
+              </g>
+              <ellipse cx="260" cy="235" rx="70" ry="13" fill="#3d584a"/>
+              <path d="M260 239V283M246 282H274" stroke="#3d584a" stroke-width="8" stroke-linecap="round"/>
+              <path d="M249 229V221h10v8M270 229v-11h10v11" fill="none" stroke="#f4ead9" stroke-width="3"/>
+              <ellipse cx="260" cy="291" rx="97" ry="7" fill="#96785b" opacity=".24"/>
+            </svg>
+            <div class="choice-info">
+              <div><div class="place-label">Option 01 · courtyard</div><div class="place-name">Antic Teatre</div></div>
+              <div class="circle-arrow" aria-hidden="true">↗</div>
+            </div>
+          </button>
 
-      </div>
-
-      <div class="planner">
-        <p class="eyebrow">Let’s fill it in together</p>
-        <h2>Pick what works for you</h2>
-
-        <div class="option-group" aria-labelledby="day-title">
-          <h3 id="day-title">Day</h3>
-          <div class="pill-row">
-            <button class="pill" data-group="day" data-value="Tuesday">Tuesday</button>
-            <button class="pill" data-group="day" data-value="Wednesday">Wednesday</button>
+          <button class="choice" type="button" data-venue="La Central Café" aria-pressed="false" aria-label="Choose La Central Café">
+            <svg class="scene" viewBox="0 0 520 310" role="img" aria-label="Illustration of a bookshop café with shelves, hanging lamps, and a coffee table" xmlns="http://www.w3.org/2000/svg">
+              <rect width="520" height="310" fill="#d9bfa2"/>
+              <rect x="29" y="0" width="462" height="240" fill="#a7a896"/>
+              <rect x="48" y="21" width="424" height="198" fill="#56695b"/>
+              <g stroke="#e5cba4" stroke-width="9"><path d="M49 92H471M49 162H471M171 20V220M351 20V220"/></g>
+              <g fill="#cdbb96">
+                <rect x="58" y="36" width="17" height="50"/><rect x="79" y="26" width="23" height="60"/><rect x="105" y="40" width="11" height="46"/><rect x="120" y="30" width="30" height="56"/>
+                <rect x="186" y="28" width="25" height="58"/><rect x="217" y="41" width="15" height="45"/><rect x="239" y="25" width="25" height="61"/><rect x="269" y="37" width="23" height="49"/><rect x="301" y="43" width="16" height="43"/><rect x="324" y="31" width="16" height="55"/>
+                <rect x="366" y="30" width="29" height="56"/><rect x="402" y="42" width="15" height="44"/><rect x="420" y="27" width="12" height="59"/><rect x="438" y="37" width="24" height="49"/>
+              </g>
+              <g fill="#d27d59">
+                <rect x="63" y="107" width="12" height="49"/><rect x="107" y="104" width="19" height="52"/><rect x="143" y="115" width="16" height="41"/>
+                <rect x="192" y="113" width="17" height="43"/><rect x="262" y="111" width="13" height="45"/><rect x="321" y="104" width="17" height="52"/>
+                <rect x="372" y="115" width="12" height="41"/><rect x="423" y="105" width="20" height="51"/>
+              </g>
+              <g fill="#e9dbbd"><rect x="78" y="107" width="23" height="49"/><rect x="132" y="101" width="8" height="55"/><rect x="215" y="103" width="37" height="53"/><rect x="281" y="108" width="30" height="48"/><rect x="390" y="104" width="23" height="52"/><rect x="447" y="114" width="17" height="42"/></g>
+              <g fill="#7b9280"><rect x="60" y="169" width="21" height="43"/><rect x="116" y="174" width="25" height="38"/><rect x="191" y="176" width="15" height="36"/><rect x="228" y="168" width="31" height="44"/><rect x="299" y="173" width="17" height="39"/><rect x="376" y="170" width="23" height="42"/><rect x="432" y="177" width="23" height="35"/></g>
+              <rect x="0" y="239" width="520" height="71" fill="#bd9b7c"/>
+              <path d="M0 254H520M0 282H520" stroke="#dec2a4" stroke-width="2"/>
+              <path d="M260 0v78" stroke="#303e36" stroke-width="4"/>
+              <path d="M219 80Q225 126 260 126Q295 126 301 80Z" fill="#eddfbb"/>
+              <ellipse cx="260" cy="79" rx="41" ry="7" fill="#3a5043"/>
+              <path d="M196 245V281M183 282H209M324 245V281M310 282H337" stroke="#405249" stroke-width="7" stroke-linecap="round"/>
+              <path d="M198 233H324" stroke="#554636" stroke-width="14" stroke-linecap="round"/>
+              <path d="M219 236V271M302 236V271" stroke="#554636" stroke-width="7"/>
+              <g fill="none" stroke="#405249" stroke-width="6" stroke-linecap="round"><path d="M166 259v-32h-30v32M146 258v34M163 259v34"/><path d="M352 259v-32h30v32M353 259v34M370 259v34"/></g>
+              <path d="M248 224v-14h22v14" stroke="#f6ead5" stroke-width="4" fill="none"/><path d="M270 214q16 0 10 10q-4 6-10 1" stroke="#f6ead5" stroke-width="3" fill="none"/>
+              <ellipse cx="260" cy="290" rx="115" ry="6" fill="#6d5946" opacity=".19"/>
+            </svg>
+            <div class="choice-info">
+              <div><div class="place-label">Option 02 · books & coffee</div><div class="place-name">La Central Café</div></div>
+              <div class="circle-arrow" aria-hidden="true">↗</div>
+            </div>
+          </button>
+        </div>
+        <div class="result" aria-live="polite">
+          <div id="prompt" class="prompt">A very serious decision.</div>
+          <div class="decision" id="decision">
+            <div class="decision-line" id="decision-line">Excellent choice.</div>
+            <button type="button" id="share" class="share-btn">Share your pick ↗</button>
+            <div class="feedback" id="feedback" role="status"></div>
           </div>
         </div>
+      </section>
+    </main>
+    <footer><span>No paperwork necessary.</span><span>See you Wednesday.</span></footer>
+  </div>
+  <script>
+    (() => {
+      const choices = [...document.querySelectorAll('.choice')];
+      const prompt = document.getElementById('prompt');
+      const decision = document.getElementById('decision');
+      const decisionLine = document.getElementById('decision-line');
+      const feedback = document.getElementById('feedback');
+      const share = document.getElementById('share');
+      let selection = '';
 
-        <div class="option-group" aria-labelledby="time-title">
-          <h3 id="time-title">Time</h3>
-          <div class="pill-row">
-            <button class="pill" data-group="time" data-value="18:00">18:00</button>
-            <button class="pill" data-group="time" data-value="19:00">19:00</button>
-            <button class="pill" data-group="time" data-value="20:00">20:00</button>
-            <button class="pill" data-group="time" data-value="21:00">21:00</button>
-            <button class="pill" data-group="time" data-value="You choose">You choose</button>
-          </div>
-        </div>
+      choices.forEach((choice) => choice.addEventListener('click', () => {
+        selection = choice.dataset.venue;
+        choices.forEach((other) => other.setAttribute('aria-pressed', String(other === choice)));
+        decisionLine.textContent = `${selection}. Excellent choice.`;
+        prompt.hidden = true;
+        decision.classList.add('show');
+        feedback.textContent = '';
+      }));
 
-        <div class="option-group">
-          <h3>Place</h3>
-          <p class="place-copy">I’ll find somewhere nice. You just choose the day and time.</p>
-        </div>
-
-        <div class="summary-box">
-          <p><strong>Our plan:</strong> <span id="summaryText">Choose a day and time above.</span></p>
-        </div>
-
-        <div class="action-row">
-          <button class="btn yes" id="copyBtn">Copy my answer</button>
-          <!-- <a class="btn ghost disabled" id="whatsappBtn" href="#" aria-disabled="true">Send on WhatsApp</a> -->
-        </div>
-        <p class="status" id="status"></p>
-      </div>
-    </section>
-
-    <section class="ending card hidden" id="noEnding">
-      <p class="eyebrow">Fair enough</p>
-      <h2>No pressure at all.</h2>
-      <p>I still wanted to ask you in a cute way :)</p>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
+      share.addEventListener('click', async () => {
+        if (!selection) return;
+        const message = `My vote for Wednesday: ${selection} ☕`;
+        if (navigator.share) {
+          try {
+            await navigator.share({ text: message });
+            feedback.textContent = 'Your phone handled the rest.';
+            return;
+          } catch (err) {
+            if (err && err.name === 'AbortError') return;
+          }
+        }
+        try {
+          if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+          await navigator.clipboard.writeText(message);
+          feedback.textContent = 'Copied! Paste it in WhatsApp.';
+        } catch (_) {
+          // Fall back to highlighting the message for manual copy.
+          feedback.textContent = message;
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
